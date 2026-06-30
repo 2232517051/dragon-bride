@@ -143,8 +143,8 @@ body{
 const STORY = {
   segments: {
     seg1:{ src:"clips/seg1.mp4?v=2", hud:"原片 0:00–0:18 · 战火 · Rion 喝你走 · 抽马送你离场", decision:"d1" },
-    seg2:{ src:"clips/seg2.mp4?v=2", hud:"原片 0:18–0:51 · 马驮你冲离战场 · Rion 中箭", decision:"d2" },
-    seg3:{ src:"clips/seg3.mp4?v=1", hud:"原片 0:51–2:49 · 第一世的结局 → 坠城而死 → 重生", decision:"d3" },
+    seg2:{ src:"clips/seg2.mp4?v=3", hud:"原片 0:18–0:55 · 马驮你冲离 · 你奔回战场 · Rion 跪倒", decision:"d2" },
+    seg3:{ src:"clips/seg3.mp4?v=2", hud:"原片 0:55–2:49 · 抱住将死的他 → 第一世结局 → 坠城 → 重生", decision:"d3" },
     seg4:{ src:"clips/seg4.mp4?v=1", hud:"原片 2:49–3:03 · 重生冷答 · 女王觉醒", decision:"end" }
   },
   decisions: {
@@ -152,10 +152,10 @@ const STORY = {
       { label:"攥紧缰绳，任它把你带离战场", go:"seg2" },
       { label:"勒马调头，跳下去跟他并肩打", bad:"die_charging_back" },
       { label:"死命勒住马，俯身把他往上拽", bad:"cling_refuse" } ]},
-    d2:{ q:"Rion 中箭，撑不住了。你怎么办？", replay:"seg2", options:[
-      { label:"调头冲回去，把他抱住", go:"seg3" },
-      { label:"别回头，冲出去保命", bad:"flee_abandon" },
-      { label:"丢下他，去找龙王拼命", bad:"revenge_dragon" } ]},
+    d2:{ q:"Rion 浑身是箭，跪倒在地。你冲到了他跟前——", replay:"seg2", options:[
+      { label:"扑过去，把他紧紧抱住", go:"seg3" },
+      { label:"撇下他，转身冲出去保命", bad:"flee_abandon" },
+      { label:"撇下他，独自去找龙王拼命", bad:"revenge_dragon" } ]},
     d3:{ q:"重活一世。父亲问你，是不是又来求 Rion。你怎么答？", replay:"seg3", options:[
       { label:"不要他了。黑堡要 Leila，就把她交出去", go:"seg4" },
       { label:"还是求父亲，把 Rion 许给我", bad:"beg_rion_again" },
@@ -166,10 +166,10 @@ const STORY = {
       beats:["你跳下马，往火里跑回去找他。","他又要推你走，这回两个人都没跑出去。","城墙塌下来，把你们压在了下面。"] },
     cling_refuse:{ title:"💀 你拽不动他", sub:"You tried to haul him up, and the arrows found you both.", replay:"seg1",
       beats:["你俯身去拽他上马，他一身重甲，你根本拽不动。","马原地打转，怎么都冲不出去。","箭追上来，先中的是你。"] },
-    flee_abandon:{ title:"💀 你没回头", sub:"You rode to safety. He died on the field, alone.", replay:"seg2",
-      beats:["你冲出战场，一次都没回头。","Rion 倒在原地，没人去拉他一把。","他流着血咽了气，身边一个人都没有。"] },
-    revenge_dragon:{ title:"💀 你扑向了龙王", sub:"You went for the Dragon King instead. You both died.", replay:"seg2",
-      beats:["你拨马朝山顶的龙王冲过去。","你一个人，连他跟前都没靠近，就被射下了马。","Rion 没等到你回去，先断了气。"] },
+    flee_abandon:{ title:"💀 你跑到他跟前又走了", sub:"You reached him, then turned and ran.", replay:"seg2",
+      beats:["你跑到他跟前，又转身冲了出去。","Rion 跪在原地，看着你的背影。","他流着血咽了气，身边一个人都没有。"] },
+    revenge_dragon:{ title:"💀 你撇下他去拼龙王", sub:"You left him for the Dragon King. You both died.", replay:"seg2",
+      beats:["你撇下他，独自朝山顶的龙王冲过去。","你一个人，没近得了龙王的身，就被乱箭射倒。","Rion 没等到你回头，先断了气。"] },
     beg_rion_again:{ title:"💀 又走了一遍老路", sub:"You asked for Rion again. Nothing changed.", replay:"seg3",
       beats:["你还是跪下来，求父亲把 Rion 许给你。","婚礼上他站在你身边，心里装的还是 Leila。","后来 Leila 还是死在黑堡，你又摔死在那截城墙上。"] },
     reject_pact_flee:{ title:"💀 你想带他逃", sub:"You tore up the pact and ran. The war came early.", replay:"seg3",
