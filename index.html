@@ -148,10 +148,10 @@ const STORY = {
     seg4:{ src:"clips/seg4.mp4?v=1", hud:"原片 2:49–3:03 · 重生冷答 · 女王觉醒", decision:"end" }
   },
   decisions: {
-    d1:{ q:"你已经在马上，Rion 在底下死命喊你快走。你怎么办？", replay:"seg1", options:[
-      { label:"听他的，打马就走，先活命", go:"seg2" },
-      { label:"跳下马，冲回去跟他并肩打", bad:"die_charging_back" },
-      { label:"俯身把他往马上拽，带他一起走", bad:"cling_refuse" } ]},
+    d1:{ q:"马被狠狠抽了一鞭，驮着你往外冲。你怎么办？", replay:"seg1", options:[
+      { label:"攥紧缰绳，任它把你带离战场", go:"seg2" },
+      { label:"勒马调头，跳下去跟他并肩打", bad:"die_charging_back" },
+      { label:"死命勒住马，俯身把他往上拽", bad:"cling_refuse" } ]},
     d2:{ q:"Rion 中箭，撑不住了。你怎么办？", replay:"seg2", options:[
       { label:"调头冲回去，把他抱住", go:"seg3" },
       { label:"别回头，冲出去保命", bad:"flee_abandon" },
