@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>重生之我不再选他 · The Queen Reborn</title>
+<style>
+:root{
+  --gold:#d8b46a; --gold2:#f0d9a0; --ink:#0b0a0d; --panel:#15131a;
+  --red:#7d2230; --muted:#8a8090; --line:rgba(216,180,106,.28);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:#000;color:#eee;
+  font-family:"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",system-ui,sans-serif;
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+}
+#stage{
+  position:relative;width:100vw;height:100vh;max-width:480px;max-height:100vh;
+  background:#000;overflow:hidden;
+}
+@media(min-aspect-ratio:10/16){ #stage{ width:auto; aspect-ratio:9/16; height:100vh; } }
+#vid{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  background:#000;opacity:0;transition:opacity .35s;
+}
+#vid.on{opacity:1}
+
+/* layers */
+.layer{position:absolute;inset:0;display:none;flex-direction:column;
+  align-items:center;justify-content:center;padding:26px 22px;text-align:center;}
+.layer.show{display:flex;animation:fade .45s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* HUD */
+#hud{position:absolute;top:0;left:0;right:0;padding:9px 12px;z-index:5;
+  font-size:11.5px;letter-spacing:.3px;color:var(--gold2);
+  background:linear-gradient(180deg,rgba(0,0,0,.62),rgba(0,0,0,0));
+  text-shadow:0 1px 3px #000;display:none;text-align:left;}
+
+/* START */
+#startLayer{background:radial-gradient(120% 80% at 50% 22%,#241a18 0%,#0b0a0d 70%);}
+.crest{font-size:46px;margin-bottom:6px;filter:drop-shadow(0 2px 10px rgba(216,180,106,.45))}
+#startLayer h1{font-size:25px;font-weight:800;color:var(--gold2);letter-spacing:1px;line-height:1.3}
+#startLayer .en{color:var(--gold);font-size:13px;letter-spacing:2px;margin-top:4px;font-style:italic;opacity:.9}
+.cast{margin:20px 0 8px;font-size:12.5px;color:#cbb;line-height:1.9}
+.cast b{color:var(--gold2);font-weight:700}
+.cast span{color:var(--muted)}
+.tagline{color:var(--muted);font-size:12px;margin:14px 0 22px;line-height:1.7;max-width:300px}
+
+/* SCENE (text-only fallback, unused for video segs) */
+.segtag{color:var(--gold);font-size:12px;letter-spacing:2px;margin-bottom:10px}
+.desc{font-size:15px;line-height:1.85;color:#e7e2ea;white-space:pre-line;max-width:340px}
+.dlg{margin-top:14px;font-size:14px;color:#d7cfe0}.dlg .sp{color:var(--gold2);font-weight:700}
+
+/* CHOICE */
+#choiceLayer{background:rgba(7,6,9,.82);backdrop-filter:blur(3px)}
+.q{font-size:17px;line-height:1.7;color:#fff;max-width:360px;margin-bottom:22px;
+  font-weight:600;text-shadow:0 2px 8px #000}
+.opts{display:flex;flex-direction:column;gap:11px;width:100%;max-width:340px}
+.opt{padding:14px 16px;border:1px solid var(--line);border-radius:13px;
+  background:linear-gradient(180deg,rgba(40,32,26,.9),rgba(20,17,22,.92));
+  color:#f0e9dd;font-size:14.5px;line-height:1.4;cursor:pointer;transition:.16s;text-align:left}
+.opt:hover,.opt:active{border-color:var(--gold);background:linear-gradient(180deg,rgba(64,48,32,.95),rgba(30,24,18,.95));transform:translateY(-1px)}
+
+/* BAD END */
+#badLayer{background:radial-gradient(120% 90% at 50% 30%,#241016 0%,#0a0608 72%)}
+#badLayer h2{font-size:22px;color:#f1a9a9;font-weight:800;letter-spacing:.5px}
+#badLayer .sub{color:#caa;font-size:12.5px;font-style:italic;margin:6px 0 18px;letter-spacing:.5px}
+.beats{display:flex;flex-direction:column;gap:10px;max-width:330px;margin-bottom:24px}
+.beat{font-size:14.5px;line-height:1.6;color:#e6dada;
+  padding-left:14px;border-left:2px solid var(--red);text-align:left}
+
+/* END */
+#endLayer{background:radial-gradient(120% 80% at 50% 26%,#2a2012 0%,#0b0a0d 72%)}
+#endLayer h1{font-size:23px;color:var(--gold2);font-weight:800;letter-spacing:1px}
+#endLayer .quote{color:var(--gold);font-style:italic;font-size:14px;margin:12px 0;line-height:1.7;max-width:320px}
+#endLayer p{color:#ddd;font-size:14px;line-height:1.8;max-width:320px}
+#endLayer .next{color:var(--muted);font-size:12px;margin-top:14px;letter-spacing:2px}
+
+.cta{margin-top:22px;padding:13px 30px;border:none;border-radius:30px;
+  background:linear-gradient(180deg,var(--gold2),var(--gold));color:#2a1c08;
+  font-size:15px;font-weight:800;letter-spacing:1px;cursor:pointer;
+  box-shadow:0 6px 20px rgba(216,180,106,.32);transition:.16s}
+.cta:hover,.cta:active{transform:translateY(-2px);box-shadow:0 9px 26px rgba(216,180,106,.45)}
+.ghost{background:none;border:1px solid var(--line);color:var(--gold2);
+  box-shadow:none;font-weight:600;padding:11px 24px;font-size:13.5px}
+</style>
+</head>
+<body>
+<div id="stage">
+  <video id="vid" playsinline webkit-playsinline preload="auto"></video>
+  <div id="hud"></div>
+
+  <!-- START -->
+  <div class="layer show" id="startLayer">
+    <div class="crest">👑</div>
+    <h1>重生之我不再选他</h1>
+    <div class="en">THE QUEEN REBORN</div>
+    <div class="cast">
+      <b>Seraphina Aurelian</b> <span>· 南境皇储</span><br>
+      <b>Rion Ashford</b> <span>· 南境军指挥官</span>
+    </div>
+    <div class="tagline">第一世，你用王权逼他娶你，他至死只念着 Leila。<br>这一世，你睁开眼——还在去求父亲的那天。</div>
+    <button class="cta" id="startBtn">▶ 开始</button>
+  </div>
+
+  <!-- SCENE (text fallback) -->
+  <div class="layer" id="sceneLayer">
+    <div class="segtag" id="sceneSeg"></div>
+    <div class="desc" id="sceneDesc"></div>
+    <div id="sceneDlg"></div>
+    <button class="cta" id="sceneNext">继续 ▶</button>
+  </div>
+
+  <!-- CHOICE -->
+  <div class="layer" id="choiceLayer">
+    <div class="q" id="qText"></div>
+    <div class="opts" id="optWrap"></div>
+  </div>
+
+  <!-- BAD END -->
+  <div class="layer" id="badLayer">
+    <h2 id="badTitle"></h2>
+    <div class="sub" id="badSub"></div>
+    <div class="beats" id="badBeats"></div>
+    <button class="cta ghost" id="badRetry">← 回到这一步，重新选</button>
+  </div>
+
+  <!-- END -->
+  <div class="layer" id="endLayer">
+    <h1>👑 你不再为他低头</h1>
+    <div class="quote">"我不要 Rion 了。黑堡要 Leila，就把她交出去。"</div>
+    <p>同样的父亲，同样的王座。这一次，坐着等的人是你。</p>
+    <div class="next">—— 待续 EP2 ——</div>
+    <button class="cta" id="endBtn">⟲ 再玩一次</button>
+  </div>
+</div>
+
+<script>
+/* 正确路径接原片 clips/segN.mp4；坏结局为文字卡。给某个 badEnd 加 video 字段即可自动播片。 */
+const STORY = {
+  segments: {
+    seg1:{ src:"clips/seg1.mp4?v=1", hud:"原片 0:00–0:15 · 战火 · Rion 把你推上马", decision:"d1" },
+    seg2:{ src:"clips/seg2.mp4?v=1", hud:"原片 0:15–0:51 · 你被带离战场 · Rion 中箭", decision:"d2" },
+    seg3:{ src:"clips/seg3.mp4?v=1", hud:"原片 0:51–2:49 · 第一世的结局 → 坠城而死 → 重生", decision:"d3" },
+    seg4:{ src:"clips/seg4.mp4?v=1", hud:"原片 2:49–3:03 · 重生冷答 · 女王觉醒", decision:"end" }
+  },
+  decisions: {
+    d1:{ q:"Rion 把你往马上推，喊你快走。你怎么办？", replay:"seg1", options:[
+      { label:"被他推上马，先活命", go:"seg2" },
+      { label:"挣开他，冲回去跟他一起打", bad:"die_charging_back" },
+      { label:"抱住他不松手，拖着他一起走", bad:"cling_refuse" } ]},
+    d2:{ q:"Rion 中箭，撑不住了。你怎么办？", replay:"seg2", options:[
+      { label:"调头冲回去，把他抱住", go:"seg3" },
+      { label:"别回头，冲出去保命", bad:"flee_abandon" },
+      { label:"丢下他，去找龙王拼命", bad:"revenge_dragon" } ]},
+    d3:{ q:"重活一世。父亲问你，是不是又来求 Rion。你怎么答？", replay:"seg3", options:[
+      { label:"不要他了。黑堡要 Leila，就把她交出去", go:"seg4" },
+      { label:"还是求父亲，把 Rion 许给我", bad:"beg_rion_again" },
+      { label:"撕了婚约，带 Rion 一起逃", bad:"reject_pact_flee" } ]}
+  },
+  badEnds: {
+    die_charging_back:{ title:"💀 一起烧在火里", sub:"You broke free and ran back. Neither of you made it out.", replay:"seg1",
+      beats:["你跳下马，往火里跑回去找他。","他又要推你走，这回两个人都没跑出去。","城墙塌下来，把你们压在了下面。"] },
+    cling_refuse:{ title:"💀 你拖不动他", sub:"You wouldn't let go, and the arrows found you both.", replay:"seg1",
+      beats:["你抱着他不撒手，士兵怎么拉都拉不开你。","马受了惊跑了，你们还站在原地。","箭射过来，先中的是你。"] },
+    flee_abandon:{ title:"💀 你没回头", sub:"You rode to safety. He died on the field, alone.", replay:"seg2",
+      beats:["你冲出战场，一次都没回头。","Rion 倒在原地，没人去拉他一把。","他流着血咽了气，身边一个人都没有。"] },
+    revenge_dragon:{ title:"💀 你扑向了龙王", sub:"You went for the Dragon King instead. You both died.", replay:"seg2",
+      beats:["你拨马朝山顶的龙王冲过去。","你一个人，连他跟前都没靠近，就被射下了马。","Rion 没等到你回去，先断了气。"] },
+    beg_rion_again:{ title:"💀 又走了一遍老路", sub:"You asked for Rion again. Nothing changed.", replay:"seg3",
+      beats:["你还是跪下来，求父亲把 Rion 许给你。","婚礼上他站在你身边，心里装的还是 Leila。","后来 Leila 还是死在黑堡，你又摔死在那截城墙上。"] },
+    reject_pact_flee:{ title:"💀 你想带他逃", sub:"You tore up the pact and ran. The war came early.", replay:"seg3",
+      beats:["你撕了婚约，想拉着 Rion 一起走。","他没跟你走，他要的从来都不是你。","婚约一断，黑堡的兵第二天就压到了城下。"] }
+  }
+};
+
+const vid=document.getElementById('vid'), hud=document.getElementById('hud');
+const L={start:'startLayer',scene:'sceneLayer',choice:'choiceLayer',bad:'badLayer',end:'endLayer'};
+function hideAll(){Object.values(L).forEach(id=>document.getElementById(id).classList.remove('show'));}
+function show(n){hideAll();document.getElementById(L[n]).classList.add('show');}
+let current=null, mode='seg', curBad=null;
+
+function playSegment(id){
+  const s=STORY.segments[id]; current=id;
+  hud.style.display='block'; hud.textContent=s.hud;
+  if(s.src){ mode='seg'; vid.classList.add('on'); hideAll(); vid.src=s.src; vid.currentTime=0;
+    const p=vid.play(); if(p&&p.catch)p.catch(()=>{}); return; }
+  vid.classList.remove('on');
+  document.getElementById('sceneSeg').textContent=s.seg||'';
+  document.getElementById('sceneDesc').innerText=s.desc||'';
+  document.getElementById('sceneDlg').innerHTML=(s.dlg||[]).map(([sp,l])=>`<div class="dlg"><span class="sp">${sp}：</span>${l}</div>`).join('');
+  show('scene');
+}
+document.getElementById('sceneNext').onclick=()=>advance();
+function advance(){ const s=STORY.segments[current]; if(!s)return; if(s.decision==='end'){vid.classList.remove('on');hud.style.display='none';show('end');return;} showDecision(s.decision); }
+vid.addEventListener('ended',()=>{ if(mode==='badvideo'){ showBadCard(curBad); return; } advance(); });
+
+function showDecision(id){
+  const d=STORY.decisions[id];
+  hud.style.display='none';
+  document.getElementById('qText').textContent=d.q;
+  const wrap=document.getElementById('optWrap'); wrap.innerHTML='';
+  d.options.forEach(o=>{
+    const b=document.createElement('button'); b.className='opt'; b.textContent=o.label;
+    b.onclick=()=>{ if(o.go){ playSegment(o.go); } else { showBad(o.bad,id); } };
+    wrap.appendChild(b);
+  });
+  show('choice');
+}
+
+let lastDecision=null;
+function showBad(key,decId){ lastDecision=decId; const e=STORY.badEnds[key];
+  if(e&&e.video){ curBad=key; mode='badvideo'; vid.classList.add('on'); hideAll(); vid.src=e.video; vid.play().catch(()=>{}); return; }
+  showBadCard(key);
+}
+function showBadCard(key){ const e=STORY.badEnds[key]; vid.classList.remove('on'); hud.style.display='none';
+  document.getElementById('badTitle').textContent=e.title;
+  document.getElementById('badSub').textContent=e.sub||'';
+  document.getElementById('badBeats').innerHTML=e.beats.map(b=>`<div class="beat">${b}</div>`).join('');
+  show('bad');
+}
+document.getElementById('badRetry').onclick=()=>{ if(lastDecision) showDecision(lastDecision); };
+
+document.getElementById('startBtn').onclick=()=>playSegment('seg1');
+document.getElementById('endBtn').onclick=()=>{ show('start'); };
+</script>
+</body>
+</html>
