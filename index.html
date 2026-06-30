@@ -148,10 +148,10 @@ const STORY = {
     seg4:{ src:"clips/seg4.mp4?v=1", hud:"原片 2:49–3:03 · 重生冷答 · 女王觉醒", decision:"end" }
   },
   decisions: {
-    d1:{ q:"Rion 把你往马上推，喊你快走。你怎么办？", replay:"seg1", options:[
-      { label:"被他推上马，先活命", go:"seg2" },
-      { label:"挣开他，冲回去跟他一起打", bad:"die_charging_back" },
-      { label:"抱住他不松手，拖着他一起走", bad:"cling_refuse" } ]},
+    d1:{ q:"你已经在马上，Rion 在底下死命喊你快走。你怎么办？", replay:"seg1", options:[
+      { label:"听他的，打马就走，先活命", go:"seg2" },
+      { label:"跳下马，冲回去跟他并肩打", bad:"die_charging_back" },
+      { label:"俯身把他往马上拽，带他一起走", bad:"cling_refuse" } ]},
     d2:{ q:"Rion 中箭，撑不住了。你怎么办？", replay:"seg2", options:[
       { label:"调头冲回去，把他抱住", go:"seg3" },
       { label:"别回头，冲出去保命", bad:"flee_abandon" },
@@ -164,8 +164,8 @@ const STORY = {
   badEnds: {
     die_charging_back:{ title:"💀 一起烧在火里", sub:"You broke free and ran back. Neither of you made it out.", replay:"seg1",
       beats:["你跳下马，往火里跑回去找他。","他又要推你走，这回两个人都没跑出去。","城墙塌下来，把你们压在了下面。"] },
-    cling_refuse:{ title:"💀 你拖不动他", sub:"You wouldn't let go, and the arrows found you both.", replay:"seg1",
-      beats:["你抱着他不撒手，士兵怎么拉都拉不开你。","马受了惊跑了，你们还站在原地。","箭射过来，先中的是你。"] },
+    cling_refuse:{ title:"💀 你拽不动他", sub:"You tried to haul him up, and the arrows found you both.", replay:"seg1",
+      beats:["你俯身去拽他上马，他一身重甲，你根本拽不动。","马原地打转，怎么都冲不出去。","箭追上来，先中的是你。"] },
     flee_abandon:{ title:"💀 你没回头", sub:"You rode to safety. He died on the field, alone.", replay:"seg2",
       beats:["你冲出战场，一次都没回头。","Rion 倒在原地，没人去拉他一把。","他流着血咽了气，身边一个人都没有。"] },
     revenge_dragon:{ title:"💀 你扑向了龙王", sub:"You went for the Dragon King instead. You both died.", replay:"seg2",
