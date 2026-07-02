@@ -62,7 +62,7 @@ body{
 .opts{display:flex;flex-direction:column;gap:12px;width:100%;max-width:340px;align-items:center}
 .opt{padding:14px 0;width:62%;border:1px solid var(--line);border-radius:28px;
   background:linear-gradient(180deg,rgba(40,32,26,.9),rgba(20,17,22,.92));
-  color:#f0e9dd;font-size:16px;letter-spacing:3px;line-height:1;cursor:pointer;transition:.16s;text-align:center}
+  color:#f0e9dd;font-size:16px;letter-spacing:.5px;line-height:1;cursor:pointer;transition:.16s;text-align:center}
 .opt:hover,.opt:active{border-color:var(--gold);background:linear-gradient(180deg,rgba(64,48,32,.95),rgba(30,24,18,.95));transform:translateY(-1px)}
 
 /* BAD END */
@@ -150,14 +150,14 @@ const STORY = {
   },
   decisions: {
     d1:{ q:"马被狠狠抽了一鞭，驮着你往外冲。你怎么办？", replay:"seg1", options:[
-      { label:"离开", go:"seg2" },
-      { label:"回头", bad:"die_charging_back" } ]},
+      { label:"Ride on",   go:"seg2" },
+      { label:"Turn back", bad:"die_charging_back" } ]},
     d2:{ q:"Rion 浑身是箭，跪倒在地。你冲到了他跟前——", replay:"seg2", options:[
-      { label:"抱住", go:"seg3" },
-      { label:"丢下", bad:"flee_abandon" } ]},
+      { label:"Hold him",  go:"seg3" },
+      { label:"Leave him", bad:"flee_abandon" } ]},
     d3:{ q:"重活一世。父亲问你，是不是又来求 Rion。你怎么答？", replay:"seg3", options:[
-      { label:"不求了", go:"seg4" },
-      { label:"还是求", bad:"beg_rion_again" } ]}
+      { label:"Never again", go:"seg4" },
+      { label:"Beg again",   bad:"beg_rion_again" } ]}
   },
   badEnds: {
     die_charging_back:{ title:"💀 一起烧在火里", sub:"You broke free and ran back. Neither of you made it out.", replay:"seg1", video:"clips/bad_die_charging_back.mp4",
