@@ -149,13 +149,13 @@ const STORY = {
     seg4:{ src:"clips/seg4.mp4?v=1", hud:"原片 2:49–3:03 · 重生冷答 · 女王觉醒", decision:"end" }
   },
   decisions: {
-    d1:{ q:"马被狠狠抽了一鞭，驮着你往外冲。你怎么办？", replay:"seg1", options:[
+    d1:{ q:"The horse bolts, carrying you away from the fire.", replay:"seg1", options:[
       { label:"Ride on",   go:"seg2" },
       { label:"Turn back", bad:"die_charging_back" } ]},
-    d2:{ q:"Rion 浑身是箭，跪倒在地。你冲到了他跟前——", replay:"seg2", options:[
+    d2:{ q:"Rion is riddled with arrows, on his knees. You reach him—", replay:"seg2", options:[
       { label:"Hold him",  go:"seg3" },
       { label:"Leave him", bad:"flee_abandon" } ]},
-    d3:{ q:"重活一世。父亲问你，是不是又来求 Rion。你怎么答？", replay:"seg3", options:[
+    d3:{ q:"Reborn. Your father asks if you're here to beg for Rion again.", replay:"seg3", options:[
       { label:"Never again", go:"seg4" },
       { label:"Beg again",   bad:"beg_rion_again" } ]}
   },
