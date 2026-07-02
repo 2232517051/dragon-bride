@@ -117,7 +117,6 @@ body{
 
   <!-- CHOICE -->
   <div class="layer" id="choiceLayer">
-    <div class="q" id="qText"></div>
     <div class="opts" id="optWrap"></div>
   </div>
 
@@ -199,7 +198,6 @@ vid.addEventListener('ended',()=>{ if(mode==='badvideo'){ showBadCard(curBad); r
 function showDecision(id){
   const d=STORY.decisions[id];
   hud.style.display='none';
-  document.getElementById('qText').textContent=d.q;
   const wrap=document.getElementById('optWrap'); wrap.innerHTML='';
   d.options.forEach(o=>{
     const b=document.createElement('button'); b.className='opt'; b.textContent=o.label;
